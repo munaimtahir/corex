@@ -1,37 +1,35 @@
-import React, { useState } from 'react'
-import { Sidebar } from './components/Sidebar'
-import { CommandBuilder } from './components/CommandBuilder'
-import { PromptPreview } from './components/PromptPreview'
-import { ToolConfig, CommandState } from './types'
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
-const defaultTools: ToolConfig[] = [
-  { id: 'chatgpt', name: 'ChatGPT', role: 'Planning / docs' },
-  { id: 'cursor', name: 'Cursor', role: 'Code / repo surgery' },
-  { id: 'copilot', name: 'GitHub Copilot', role: 'Code completions / refactor' },
-  { id: 'gemini', name: 'Gemini', role: 'Search / research' }
-]
-
-export const App: React.FC = () => {
-  const [tools] = useState<ToolConfig[]>(defaultTools)
-  const [command, setCommand] = useState<CommandState>({
-    goal: '',
-    context: '',
-    agent: 'auto'
-  })
+function App() {
+  const [count, setCount] = useState(0)
 
   return (
-    <div style={{ display: 'flex', height: '100vh', fontFamily: 'system-ui, sans-serif' }}>
-      <Sidebar tools={tools} />
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '12px', gap: '12px' }}>
-        <h1 style={{ margin: 0, fontSize: '1.4rem' }}>AI Command Center</h1>
-        <p style={{ margin: 0, fontSize: '0.9rem', opacity: 0.8 }}>
-          One place to define what you want, and get ready-made prompts for your AI tools.
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
         </p>
-        <div style={{ display: 'flex', gap: '12px', flex: 1, minHeight: 0 }}>
-          <CommandBuilder command={command} setCommand={setCommand} tools={tools} />
-          <PromptPreview command={command} tools={tools} />
-        </div>
-      </main>
-    </div>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
   )
 }
+
+export default App

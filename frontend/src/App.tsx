@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import Sidebar from './components/Sidebar';
+import CommandBuilder from './components/CommandBuilder';
+import PromptPreview from './components/PromptPreview';
+import type { CommandState } from './types';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [command, setCommand] = useState<CommandState>({
+    goal: '',
+    context: '',
+    agent: 'Auto'
+  });
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div style={{ display: 'flex', height: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <Sidebar />
+      
+      <div style={{ 
+        marginLeft: '220px', 
+        flex: 1, 
+        display: 'flex', 
+        flexDirection: 'column',
+        overflow: 'hidden'
+      }}>
+        {/* Header */}
+        <div style={{ 
+          padding: '30px 40px',
+          borderBottom: '1px solid #e0e0e0',
+          backgroundColor: '#fff'
+        }}>
+          <h1 style={{ 
+            fontSize: '24px', 
+            fontWeight: '600',
+            marginBottom: '8px',
+            color: '#222'
+          }}>
+            COREX – Command Orchestration Engine
+          </h1>
+          <p style={{ 
+            fontSize: '14px', 
+            color: '#666',
+            margin: 0
+          }}>
+            Unify your AI tools. Write once, copy to any agent.
+          </p>
+        </div>
+
+        {/* Main content area - two columns */}
+        <div style={{ 
+          display: 'flex', 
+          flex: 1,
+          overflow: 'hidden'
+        }}>
+          <CommandBuilder command={command} onCommandChange={setCommand} />
+          <PromptPreview command={command} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -7,6 +7,7 @@ interface PromptPreviewProps {
 
 const PromptPreview: React.FC<PromptPreviewProps> = ({ command }) => {
   const [copySuccess, setCopySuccess] = useState(false);
+  const [copyError, setCopyError] = useState(false);
 
   const generatePrompt = (): string => {
     if (!command.goal.trim()) {
@@ -35,16 +36,18 @@ const PromptPreview: React.FC<PromptPreviewProps> = ({ command }) => {
     const prompt = generatePrompt();
     
     if (prompt.startsWith('//')) {
-      alert('Please enter a goal first.');
       return;
     }
 
     try {
       await navigator.clipboard.writeText(prompt);
       setCopySuccess(true);
+      setCopyError(false);
       setTimeout(() => setCopySuccess(false), 2000);
     } catch {
-      alert('Failed to copy prompt. Please try again.');
+      setCopyError(true);
+      setCopySuccess(false);
+      setTimeout(() => setCopyError(false), 3000);
     }
   };
 
@@ -84,23 +87,36 @@ const PromptPreview: React.FC<PromptPreviewProps> = ({ command }) => {
         {prompt}
       </div>
 
-      <button
-        onClick={handleCopy}
-        disabled={prompt.startsWith('//')}
-        style={{
-          padding: '12px 24px',
-          fontSize: '14px',
-          fontWeight: '500',
-          backgroundColor: prompt.startsWith('//') ? '#ccc' : '#4CAF50',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: prompt.startsWith('//') ? 'not-allowed' : 'pointer',
-          transition: 'background-color 0.2s'
-        }}
-      >
-        {copySuccess ? '✓ Prompt copied!' : 'Copy prompt'}
-      </button>
+      <div>
+        <button
+          onClick={handleCopy}
+          disabled={prompt.startsWith('//')}
+          style={{
+            padding: '12px 24px',
+            fontSize: '14px',
+            fontWeight: '500',
+            backgroundColor: prompt.startsWith('//') ? '#ccc' : copySuccess ? '#4CAF50' : copyError ? '#f44336' : '#4CAF50',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: prompt.startsWith('//') ? 'not-allowed' : 'pointer',
+            transition: 'background-color 0.2s',
+            width: '100%'
+          }}
+        >
+          {copySuccess ? '✓ Prompt copied!' : copyError ? '✗ Copy failed' : 'Copy prompt'}
+        </button>
+        {copyError && (
+          <p style={{
+            fontSize: '12px',
+            color: '#f44336',
+            marginTop: '8px',
+            textAlign: 'center'
+          }}>
+            Failed to copy. Please try again or copy manually from the preview above.
+          </p>
+        )}
+      </div>
     </div>
   );
 };

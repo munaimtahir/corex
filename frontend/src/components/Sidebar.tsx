@@ -14,6 +14,7 @@ const Sidebar: React.FC = () => {
       position: 'fixed',
       left: 0,
       top: 0,
+      zIndex: 100,
     }}>
       <div>
         <h1 style={{ 

@@ -1,0 +1,8 @@
+{
+  "tools": [
+    { "id": "chatgpt", "name": "ChatGPT", "role": "Planning / docs" },
+    { "id": "cursor", "name": "Cursor", "role": "Code / repo surgery" },
+    { "id": "copilot", "name": "GitHub Copilot", "role": "Inline code help" },
+    { "id": "gemini", "name": "Gemini", "role": "Search / research" }
+  ]
+}
